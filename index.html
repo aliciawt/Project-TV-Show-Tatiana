@@ -1,21 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | My Name (My GitHub username)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <title>TV Show Project | Level 300</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <div id="root">
-    </div>
+    <header>
+      <div class="controls">
+        <select id="episode-select">
+          <option value="all">Show all episodes</option>
+        </select>
+        <input type="text" id="search-input" placeholder="Search episodes..." />
+        <div id="display-count"></div>
+      </div>
+    </header>
 
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+    <main id="root"></main>
 
-    <!-- Loads YOUR javascript code -->
+    <footer>
+      <p>
+        Data provided by
+        <a href="https://tvmaze.com/" target="_blank">TVMaze.com</a>
+      </p>
+    </footer>
+
     <script src="script.js"></script>
   </body>
 </html>
