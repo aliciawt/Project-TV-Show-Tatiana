@@ -1,13 +1,13 @@
 ## Project Reflections
 
 ### Level 200: Collaboration & Refactoring
-During this stage, I worked with a partner's codebase. The main difference I noticed was... (и так далее)
+During this stage, I worked with a partner's codebase. The main difference I noticed was the approach to DOM manipulation—specifically using innerHTML versus createElement. I refactored the code to make functions shorter and more readable. I implemented a live search that checks both episode names and summaries while being case-insensitive. Additionally, I added a dropdown selector to allow users to jump directly to a specific episode.
 
 ### Level 300: Moving to Live Data (Fetch API)
-The biggest change was moving from the static episodes.js file to the live TVMaze API... (и так далее)
+The biggest change was moving from the static episodes.js file to the live TVMaze API. The app now retrieves data using the fetch API. I implemented state handling: users now see a loading indicator while waiting, and in case of a network failure, a clear error message with a "Retry" button appears. The data is fetched only once at the start, ensuring the app remains performant and fast.
 
 ### Bonus: Modern UI & UX Improvements
-I used CSS Grid for a responsive layout and added hover effects... (и так далее)
+I decided to give the project a modern look and feel. Instead of a simple list, I used CSS Grid for a responsive layout. I added hover effects: cards now smoothly scale up and lift when the mouse hovers over them. I also implemented a glassmorphism effect (backdrop-filter) for the header and used object-fit: cover for the images to ensure all cards look symmetrical and professional.
 
 # TV Show Project
 
@@ -77,4 +77,5 @@ After that, you're going to swap codebases with someone else. You should complet
 You are allowed to change anything in your partner's code to make it easier to understand or build on, but they must understand and accept your changes.
 
 Remember, finish each level before you move on to the next. Reach out for help when you're stuck.
+
 
