@@ -1,44 +1,102 @@
-const API_URL = "https://api.tvmaze.com/shows/82/episodes";
+const API_URL = "https://api.tvmaze.com/shows";
 
 const rootElem = document.getElementById("root");
 const searchInput = document.getElementById("search-input");
-const select = document.getElementById("episode-select");
+const episodeSelect = document.getElementById("episode-select");
 const count = document.getElementById("display-count");
+const showSelect = document.getElementById("show-select");
 
+let allShows = [];
 let allEpisodes = [];
+let episodeCache = {};
 
 async function setup() {
-  // Показываем сообщение о загрузке
-  rootElem.innerHTML = "<div class='status-message'>Loading episodes...</div>";
+  rootElem.innerHTML = "<div class='status-message'>Loading shows...</div>";
 
   try {
     const response = await fetch(API_URL);
     
     if (!response.ok) {
-      throw new Error(`Could not fetch data (Status: ${response.status})`);
+      throw new Error(`Could not fetch shows (Status: ${response.status})`);
     }
 
-    allEpisodes = await response.json();
+    allShows = await response.json();
 
-    // Инициализация после успешной загрузки
-    initApp();
+    populateShowSelect(allShows);
+
+    rootElem.innerHTML = "<div class='status-message'>Please select a show.</div>";
     
   } catch (error) {
-    // Отображение ошибки пользователю
+    renderError(error.message);
+  }
+
+  attachSearchListener();
+}
+
+function populateShowSelect(shows) {
+  showSelect.innerHTML = '<option value="">Select a show</option>';
+
+  const sorted = [...shows].sort((a, b) =>
+    a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  );
+
+  sorted.forEach(show => {
+    const option = document.createElement("option");
+    option.value = show.id;
+    option.textContent = show.name;
+    showSelect.appendChild(option);
+  });
+
+  showSelect.addEventListener("change", handleShowChange);
+
+}
+
+async function handleShowChange(e) {
+  const showId = e.target.value;
+
+  if (!showId) return;
+
+  if (episodeCache[showId]) {
+    allEpisodes = episodeCache[showId];
+    renderEpisodes(allEpisodes);
+    populateEpisodeSelect(allEpisodes);
+    return;
+  }
+
+  rootElem.innerHTML = "<div class='status-message'>Loading episodes...</div>";
+
+  try {
+    const response = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
+
+    if (!response.ok) {
+      throw new Error(`Could not fetch episodes (Status: ${response.status})`);
+    }
+
+    const episodes = await response.json();
+
+    episodeCache[showId] = episodes;
+
+    allEpisodes = episodes;
+
+    renderEpisodes(allEpisodes);
+    populateEpisodeSelect(allEpisodes);
+
+  } catch (error) {
     renderError(error.message);
   }
 }
 
-function initApp() {
-  renderEpisodes(allEpisodes);
-  populateSelect(allEpisodes);
-  
-  // Живой поиск
+
+
+function attachSearchListener() {
   searchInput.addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase();
-    const filtered = allEpisodes.filter(ep => 
-      ep.name.toLowerCase().includes(term) || ep.summary.toLowerCase().includes(term)
+
+    const filtered = allEpisodes.filter(ep =>
+      ep.name.toLowerCase().includes(term) ||
+      ep.summary.toLowerCase().includes(term)
     );
+
     renderEpisodes(filtered);
   });
 }
@@ -68,15 +126,17 @@ function renderEpisodes(list) {
   });
 }
 
-function populateSelect(list) {
+function populateEpisodeSelect(list) {
+  episodeSelect.innerHTML = '<option value="all">Show all episodes</option>';
+  
   list.forEach(ep => {
     const opt = document.createElement("option");
     opt.value = ep.id;
     opt.textContent = `${getEpisodeCode(ep)} - ${ep.name}`;
-    select.appendChild(opt);
+    episodeSelect.appendChild(opt);
   });
 
-  select.onchange = (e) => {
+  episodeSelect.onchange = (e) => {
     const id = e.target.value;
     const filtered = id === "all" ? allEpisodes : allEpisodes.filter(ep => ep.id == id);
     renderEpisodes(filtered);
