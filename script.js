@@ -1,9 +1,13 @@
 const API_URL = "https://api.tvmaze.com/shows/82/episodes";
+
+const rootElem = document.getElementById("root");
+const searchInput = document.getElementById("search-input");
+const select = document.getElementById("episode-select");
+const count = document.getElementById("display-count");
+
 let allEpisodes = [];
 
 async function setup() {
-  const rootElem = document.getElementById("root");
-  
   // Показываем сообщение о загрузке
   rootElem.innerHTML = "<div class='status-message'>Loading episodes...</div>";
 
@@ -30,7 +34,7 @@ function initApp() {
   populateSelect(allEpisodes);
   
   // Живой поиск
-  document.getElementById("search-input").addEventListener("input", (e) => {
+  searchInput.addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase();
     const filtered = allEpisodes.filter(ep => 
       ep.name.toLowerCase().includes(term) || ep.summary.toLowerCase().includes(term)
@@ -47,7 +51,6 @@ function getEpisodeCode(ep) {
 
 function renderEpisodes(list) {
   const root = document.getElementById("root");
-  const count = document.getElementById("display-count");
   
   root.innerHTML = "";
   count.innerText = `Displaying ${list.length}/${allEpisodes.length} episodes`;
@@ -68,7 +71,6 @@ function renderEpisodes(list) {
 }
 
 function populateSelect(list) {
-  const select = document.getElementById("episode-select");
   list.forEach(ep => {
     const opt = document.createElement("option");
     opt.value = ep.id;
