@@ -37,7 +37,9 @@ header {
 }
 
 /* Стилизация инпутов */
-#search-input, #episode-select {
+#search-input, 
+#episode-select, 
+#show-select {
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -46,7 +48,9 @@ header {
   font-size: 0.95rem;
 }
 
-#search-input:focus, #episode-select:focus {
+#search-input:focus, 
+#episode-select:focus, 
+#show-select:focus {
   border-color: var(--accent-color);
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }

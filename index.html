@@ -9,12 +9,18 @@
   <body>
     <header>
       <div class="controls">
+        <select id="show-select">
+          <option value="">Select a show...</option>
+        </select>
+
         <select id="episode-select">
           <option value="all">Show all episodes</option>
         </select>
+
         <input type="text" id="search-input" placeholder="Search episodes..." />
         <div id="display-count"></div>
       </div>
+
     </header>
 
     <main id="root"></main>
