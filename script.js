@@ -50,9 +50,7 @@ function getEpisodeCode(ep) {
 }
 
 function renderEpisodes(list) {
-  const root = document.getElementById("root");
-  
-  root.innerHTML = "";
+  rootElem.innerHTML = "";
   count.innerText = `Displaying ${list.length}/${allEpisodes.length} episodes`;
 
   list.forEach(ep => {
@@ -66,7 +64,7 @@ function renderEpisodes(list) {
       <div class="summary">${ep.summary}</div>
       <a href="${ep.url}" target="_blank" class="link">View on TVMaze</a>
     `;
-    root.appendChild(card);
+    rootElem.appendChild(card);
   });
 }
 
@@ -86,7 +84,7 @@ function populateSelect(list) {
 }
 
 function renderError(msg) {
-  document.getElementById("root").innerHTML = `
+  rootElem.innerHTML = `
     <div class="error-box">
       <p>Error loading episodes: ${msg}</p>
       <button onclick="location.reload()">Retry</button>
